@@ -1,2 +1,2 @@
-# PID-Elevator-Control
-Python scripts that simulates PID control of an elevator
+This code runs an elevator simulator to teach how to create a control system.
+
