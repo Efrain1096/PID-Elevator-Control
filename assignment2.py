@@ -8,7 +8,7 @@ options['PID_DEBUG'] = False
 
 # Physics Options
 options['GRAVITY'] = True
-options['FRICTION'] = False
+options['FRICTION'] = True
 options['ELEVATOR_MASS'] = 1000
 options['COUNTERWEIGHT_MASS'] = 1000
 options['PEOPLE_MASS'] = 0
@@ -26,12 +26,13 @@ class PDController:
         self.prev_time = 0
         self.prev_error = None
         self.output = 0
+        self.output_max = 2.5
         # Part of PID DEBUG
         self.output_data = np.array([[0, 0, 0, 0]])
 
     def run(self, x, t):
-        kp = 0
-        kd = 0
+        kP = 0.25
+        kD = 0.70
 
         # Controller run time.
         if t - self.prev_time < 0.05:
@@ -42,22 +43,34 @@ class PDController:
             # INSERT CODE BELOW
 
             # Calculate error.
-
+            error = self.r - x
+            
             # Calculate proportional control output.
-            P_out = 0
+            P_out = error * kP
 
             # Calculate derivative control output.
             # HINT: Use self.prev_error to store old
             # error values and dt for time difference.
             if self.prev_error != None:
-                D_out = 0
+                D_out = (self.prev_error - error) *dt
+                self.prev_error = error
+                
             else:
                 D_out = 0
                 # Set this to error.
-                self.prev_error = None
+                self.prev_error = error
 
+      
+            
+            
             # Calculate final output.
             self.output = P_out + D_out
+            
+            # The code below set limits for the acceleration so it doesn't spiral into large or miniscule values.
+            if self.output > self.output_max:
+                self.output = self.output_max
+            elif self.output < self.output_max *(-1):
+                self.output = self.output * (-1)
 
             # INSERT CODE ABOVE
             I_out = 0
