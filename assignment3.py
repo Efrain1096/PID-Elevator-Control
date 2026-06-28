@@ -32,9 +32,9 @@ class PIDController:
         self.output_data = np.array([[0, 0, 0, 0]])
 
     def run(self, x, t):
-        kp = 0
-        ki = 0
-        kd = 0
+        kP = 0
+        kI = 0
+        kD = 0
 
         # Controller run time.
         if t - self.prev_time < 0.05:
@@ -45,23 +45,39 @@ class PIDController:
             # INSERT CODE BELOW
 
             # Calculate error.
-
+            error = self.r - x
+            
             # Calculate proportional control output.
-            P_out = 0
+            P_out = error * kP
+
+            # Calculate derivative control output.
+            # HINT: Use self.prev_error to store old
+            # error values and dt for time difference.
+            if self.prev_error != None:
+                D_out = (self.prev_error - error) *dt
+                self.prev_error = error
+            else:
+                D_out = 0
+                # Set this to error.
+                self.prev_error = error
 
 
             # Calculate integral control output.
             # HINT: Use self.integral to store
             # integral values and dt for time difference.
-            I_out = 0
+            
+            
+            self.integral += error*dt
+            
+            I_out = self.integral *kI
 
-            # Calculate derivative control output.
-            if self.prev_error != None:
-                D_out = 0
-            else:
-                D_out = 0
-                # Set this to error.
-                self.prev_error = None
+
+            
+
+
+
+
+
 
             # Calculate final output.
             self.output = P_out + I_out + D_out
