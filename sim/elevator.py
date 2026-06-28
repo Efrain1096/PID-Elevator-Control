@@ -171,7 +171,7 @@ def sim_run(options, PidController):
     pos, = ax.plot([], [], '-b')
     pos_status = ax.text(1.0, SET_POINT, '', fontsize=20, color='g')
     plt.title('Position')
-    plt.xticks([0,30])
+    # plt.xticks([0,30])
     plt.xlim(0, 30)
     if SET_POINT > START_LOC:
         plt.ylim(START_LOC - 10, SET_POINT+10)
@@ -183,7 +183,7 @@ def sim_run(options, PidController):
     vel, = ax.plot([], [], '-b')
     vel_status = ax.text(1.0, -18.0, '', fontsize=20, color='r')
     plt.title('Velocity')
-    plt.xticks([0,30])
+    # plt.xticks([0,30])
     plt.xlim(0, 30)
     plt.ylim(-20, 20)
 
